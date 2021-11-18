@@ -268,7 +268,7 @@ questions:
                         type: string
 
   - variable: mysqlRootPassword
-    group: "应用设置"
+    group: "App Configuration"
     label: "Root密码"
     schema:
       type: string

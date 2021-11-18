@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: "5.7.36"
 description: MySQL 5.7.36
 home: https://github.com/XSana/truenas-chart/stable/mysql
-icon: https://github.com/XSana/truenas-chart/icon/mysql-logo.png
+icon: https://github.com/XSana/truenas-chart/blob/main/icon/mysql-logo.png?raw=true
 keywords:
   - mysql
   - database

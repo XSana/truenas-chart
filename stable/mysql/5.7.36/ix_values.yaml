@@ -1,0 +1,68 @@
+image:
+  repository: mysql
+  pullPolicy: IfNotPresent
+  tag: 5.7.36@sha256:208315e5f89d822547065fc4e29433e23cd135289342c200407b658e4c651618
+
+controller:
+  type: statefulset
+  replicas: 1
+  strategy: RollingUpdate
+  rollingUpdate:
+    unavailable: 1
+    surge:
+    partition:
+  revisionHistoryLimit: 3
+
+service:
+  main:
+    enabled: true
+    ports:
+      main:
+        port: 3306
+        targetPort: 3306
+
+securityContext:
+  readOnlyRootFilesystem: false
+
+
+podSecurityContext:
+  runAsGroup: 0
+
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      exec:
+        command:
+          - /bin/bash
+          - -ec
+          - mysqladmin status -uroot -p"${MYSQL_ROOT_PASSWORD}"
+
+  readiness:
+    enabled: true
+    custom: true
+    spec:
+      exec:
+        command:
+          - /bin/bash
+          - -ec
+          - mysqladmin status -uroot -p"${MYSQL_ROOT_PASSWORD}"
+
+  startup:
+    enabled: true
+    custom: true
+    spec:
+      exec:
+        command:
+          - /bin/bash
+          - -ec
+          - mysqladmin status -uroot -p"${MYSQL_ROOT_PASSWORD}"
+
+existingSecret: ""
+
+envValueFrom:
+  MYSQL_ROOT_PASSWORD:
+    secretKeyRef:
+      name: '{{ ( tpl .Values.existingSecret $ ) | default ( include "common.names.fullname" . ) }}'
+      key: "mysql-root-password"

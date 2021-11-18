@@ -1,0 +1,27 @@
+apiVersion: v2
+appVersion: "5.7.36"
+dependencies:
+- name: common
+  repository: https://aoba.vip
+  version: 5.7.36
+deprecated: false
+description: MySQL 5.7.36
+home: https://github.com/XSana/truenas-chart/stable/mysql
+icon: https://github.com/XSana/truenas-chart/icon/mysql-logo.png
+keywords:
+  - mysql
+  - database
+  - sql
+kubeVersion: '>=1.16.0-0'
+maintainers:
+- email: nico@niconi.cn
+  name: XSana
+  url: https://aoba.vip
+name: mysql
+type: application
+version: 5.7.36
+annotations:
+  truecharts.org/catagories: |
+    - database
+  truecharts.org/SCALE-support: "true"
+  truecharts.org/grade: U

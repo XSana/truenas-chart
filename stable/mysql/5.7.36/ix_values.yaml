@@ -59,10 +59,5 @@ probes:
           - -ec
           - mysqladmin status -uroot -p"${MYSQL_ROOT_PASSWORD}"
 
-existingSecret: ""
-
-envValueFrom:
-  MYSQL_ROOT_PASSWORD:
-    secretKeyRef:
-      name: '{{ ( tpl .Values.existingSecret $ ) | default ( include "common.names.fullname" . ) }}'
-      key: "mysql-root-password"
+envTpl:
+  MYSQL_ROOT_PASSWORD: "{{ .Values.mysqlRootPassword }}"

@@ -267,23 +267,9 @@ questions:
                       schema:
                         type: string
 
-  - variable: mariadbDatabase
-    group: "App Configuration"
-    label: "Database Name"
-    schema:
-      type: string
-      default: "mydatabase"
-      required: true
-  - variable: mariadbUsername
-    group: "App Configuration"
-    label: "Database User"
-    schema:
-      type: string
-      default: "mydatabaseuser"
-      required: true
-  - variable: mariadbPassword
-    group: "App Configuration"
-    label: "Database Password"
+  - variable: mysqlRootPassword
+    group: "应用设置"
+    label: "Root密码"
     schema:
       type: string
       default: ""

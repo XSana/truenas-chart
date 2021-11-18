@@ -58,6 +58,6 @@ probes:
           - /bin/bash
           - -ec
           - mysqladmin status -uroot -p"${MYSQL_ROOT_PASSWORD}"
-
+mysqlRootPassword: "74108520"
 envTpl:
   MYSQL_ROOT_PASSWORD: "{{ .Values.mysqlRootPassword }}"

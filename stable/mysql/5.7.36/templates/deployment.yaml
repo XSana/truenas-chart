@@ -24,7 +24,6 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             {{ $envList := list }}
-            {{ $secretName := (include "common.names.fullname" .) }}
             {{ $envList = mustAppend $envList (dict "name" "MYSQL_ROOT_PASSWORD" "value" .Values.mysql.rootpassword) }}
             {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 10 }}
           ports:

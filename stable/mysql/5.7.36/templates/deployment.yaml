@@ -18,10 +18,6 @@ spec:
         name: mysql
     spec:
       restartPolicy: Always
-      volumes:
-      - hostPath:
-          path: {{ $hostPathConfiguration.hostPath }}
-        name: host-path-mysql
       containers:
       - name: mysql
         image: mysql:5.7.36
@@ -35,10 +31,10 @@ spec:
           protocol: TCP
         volumeMounts:
         - mountPath: /var/lib/mysql
-          name: host-path-mysql
+          name: mysql-data
           subPath: data
         - mountPath: /etc/mysql/conf.d
-          name: host-path-mysql
+          name: mysql-data
           subPath: conf.d
   updateStrategy:
     type: RollingUpdate

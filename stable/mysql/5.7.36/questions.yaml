@@ -5,10 +5,6 @@ groups:
     description: "Configuration details for MySQL"
   - name: "Storage"
     description: "Configure Storage for MySQL"
-  - name: "Scaling/Upgrade Policy"
-    description: "Configure how pods are replaced when configuration is upgraded"
-  - name: "Advanced DNS Settings"
-    description: "Configure DNS settings"
 
 questions:
   - variable: mysql

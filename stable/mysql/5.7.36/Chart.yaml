@@ -1,17 +1,7 @@
 apiVersion: v2
 appVersion: "5.7.36"
-description: MySQL 5.7.36
-home: https://github.com/XSana/truenas-chart/stable/mysql
-icon: https://github.com/XSana/truenas-chart/blob/main/icon/mysql-logo.png?raw=true
-keywords:
-  - mysql
-  - database
-  - sql
 name: mysql
+description: MySQL 5.7.36
 type: application
-version: 5.7.36
-annotations:
-  truecharts.org/catagories: |
-    - database
-  truecharts.org/SCALE-support: "true"
-  truecharts.org/grade: U
+version: 0.0.1
+kubeVersion: '>=1.16.0-0'

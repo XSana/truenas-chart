@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  labels:
+    name: mysql
+spec:
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      name: mysql
+  serviceName: mysql
+  template:
+    metadata:
+      labels:
+        name: mysql
+    spec:
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: {{ $hostPathConfiguration.hostPath }}
+        name: host-path-mysql
+      containers:
+      - name: mysql
+        image: mysql:5.7.36
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: {{ .Values.mysql.rootpassword }}
+        ports:
+        - name: mysql
+          containerPort: 3306
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: host-path-mysql
+          subPath: data
+        - mountPath: /etc/mysql/conf.d
+          name: host-path-mysql
+          subPath: conf.d
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0

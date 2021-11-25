@@ -7,7 +7,7 @@ groups:
     description: "Configure Storage for MySQL"
 
 questions:
-  - variable: mysql
+  - variable: mysqlconfig
     description: "MySQL配置明细"
     label: "MySQL配置"
     group: "MySQL Configuration"

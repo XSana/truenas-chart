@@ -1,7 +1,7 @@
 apiVersion: v2
-appVersion: "0.0.1"
+appVersion: "5.7.36"
 name: mysql
 description: MySQL 5.7.36
 type: application
-version: 0.0.1
+version: 5.7.36
 kubeVersion: '>=1.16.0-0'

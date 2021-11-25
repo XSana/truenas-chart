@@ -21,7 +21,6 @@ questions:
           description: "MySQL root默认密码"
           schema:
             type: string
-            private: true
             default: ""
             required: true
 

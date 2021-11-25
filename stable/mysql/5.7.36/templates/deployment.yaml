@@ -19,23 +19,22 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - name: mysql
-        image: mysql:5.7.36
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: {{ .Values.mysql.rootpassword }}
-        ports:
         - name: mysql
-          containerPort: 3306
-          protocol: TCP
-        volumeMounts:
-        - mountPath: /var/lib/mysql
-          name: mysql-data
-          subPath: data
-        - mountPath: /etc/mysql/conf.d
-          name: mysql-data
-          subPath: conf.d
+          image: mysql:5.7.36
+          imagePullPolicy: IfNotPresent
+          env:
+            {{ $envList = mustAppend $envList (dict "name" "MYSQL_ROOT_PASSWORD" "value" .Values.mysql.rootpassword) }}
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-data
+              subPath: data
+            - mountPath: /etc/mysql/conf.d
+              name: mysql-data
+              subPath: conf.d
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:

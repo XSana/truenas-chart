@@ -23,9 +23,7 @@ spec:
           image: mysql:5.7.36
           imagePullPolicy: IfNotPresent
           env:
-            {{ $envList := list }}
-            {{ $envList = mustAppend $envList (dict "name" "MYSQL_ROOT_PASSWORD" "value" $.Values.rootpassword) }}
-            {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 10 }}
+            MYSQL_ROOT_PASSWORD: "{{ .Values.rootpassword }}"
           ports:
             - name: mysql
               containerPort: 3306

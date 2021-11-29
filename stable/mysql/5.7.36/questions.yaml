@@ -7,21 +7,15 @@ groups:
     description: "Configure Storage for MySQL"
 
 questions:
-  - variable: mysqlconfig
-    description: "MySQL配置明细"
-    label: "MySQL配置"
+  - variable: rootpassword
+    label: "Root Password"
     group: "MySQL Configuration"
+    description: "MySQL root默认密码"
     schema:
-      type: dict
+      type: string
+      default: ""
+      private: true
       required: true
-      attrs:
-        - variable: rootpassword
-          label: "Root Password"
-          description: "MySQL root默认密码"
-          schema:
-            type: string
-            default: ""
-            required: true
 
   - variable: appVolumeMounts
     label: "MySQL存储"
@@ -34,15 +28,8 @@ questions:
           schema:
             type: dict
             attrs:
-              - variable: hostPathEnabled
-                label: "启用本地存储"
+              - variable: hostPath
+                label: "MySQL数据卷本地路径"
                 schema:
-                  type: boolean
-                  default: false
-                  show_subquestions_if: true
-                  subquestions:
-                    - variable: hostPath
-                      label: "MySQL数据卷本地路径"
-                      schema:
-                        type: hostpath
-                        required: true
+                  type: hostpath
+                  required: true

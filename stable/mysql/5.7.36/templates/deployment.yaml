@@ -23,7 +23,8 @@ spec:
           image: mysql:5.7.36
           imagePullPolicy: IfNotPresent
           env:
-            MYSQL_ROOT_PASSWORD: "{{ .Values.rootpassword }}"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "{{ .Values.rootpassword }}"
           ports:
             - name: mysql
               containerPort: 3306

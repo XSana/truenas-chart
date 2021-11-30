@@ -17,6 +17,11 @@ spec:
       labels:
         name: mysql
     spec:
+      serviceName: mysql
+      replicas: 1
+      selector:
+        matchLabels:
+          name: mysql
       restartPolicy: Always
       containers:
         - name: mysql
@@ -24,7 +29,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "{{ .Values.rootpassword }}"
+              value: "{{ .Values.rootpassword | quote }}"
           ports:
             - name: mysql
               containerPort: 3306

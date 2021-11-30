@@ -14,12 +14,9 @@ spec:
   serviceName: mysql
   template:
     metadata:
-      name: {{ template "common.names.fullname" . }}
       labels:
         name: mysql
     spec:
-      dnsPolicy: ClusterFirstWithHostNet
-      restartPolicy: Always
       containers:
       - name: mysql
         image: mysql:5.7.36
@@ -27,6 +24,7 @@ spec:
         ports:
         - name: mysql
           containerPort: 3306
+          hostPort: 3306
           protocol: TCP
         volumeMounts:
         - mountPath: /var/lib/mysql

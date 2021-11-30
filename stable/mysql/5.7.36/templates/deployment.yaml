@@ -5,6 +5,7 @@ metadata:
   labels: 
     name: mysql
 spec:
+  hostNetwork: true
   podManagementPolicy: Parallel
   replicas: 1
   revisionHistoryLimit: 3

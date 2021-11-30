@@ -19,7 +19,6 @@ spec:
     spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
-      serviceName: mysql
       restartPolicy: Always
       containers:
       - name: mysql

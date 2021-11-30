@@ -17,7 +17,6 @@ spec:
       labels:
         name: mysql
     spec:
-      hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       restartPolicy: Always
       containers:
@@ -27,7 +26,6 @@ spec:
         ports:
         - name: mysql
           containerPort: 3306
-          hostPort: 3306
           protocol: TCP
         volumeMounts:
         - mountPath: /var/lib/mysql
@@ -39,5 +37,5 @@ spec:
         env: {{ $envList := (default list .Values.environmentVariables) }}
         {{ $envList = mustAppend $envList (dict "name" "MYSQL_ROOT_PASSWORD" "value" .Values.rootpassword) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
-  updateStrategy:
+  strategy:
     type: Recreate

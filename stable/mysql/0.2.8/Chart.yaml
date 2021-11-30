@@ -3,5 +3,5 @@ appVersion: "5.7.36"
 name: mysql
 description: MySQL 5.7.36
 type: application
-version: 0.2.7
+version: 0.2.8
 kubeVersion: '>=1.16.0-0'

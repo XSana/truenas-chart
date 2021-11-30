@@ -41,6 +41,43 @@ spec:
         env: {{ $envList := (default list .Values.environmentVariables) }}
         {{ $envList = mustAppend $envList (dict "name" "MYSQL_ROOT_PASSWORD" "value" .Values.rootpassword) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
+        readinessProbe:
+          exec:
+            command:
+              - mysql
+              - '-uroot'
+              - '-p{{ .Values.rootpassword }}'
+              - '-e'
+              - select 1
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        startupProbe:
+          exec:
+            command:
+              - mysql
+              - '-uroot'
+              - '-p{{ .Values.rootpassword }}'
+              - '-e'
+              - select 1
+          failureThreshold: 20
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        livenessProbe:
+          exec:
+            command:
+              - mysqladmin
+              - '-uroot'
+              - '-p{{ .Values.rootpassword }}'
+              - ping
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
       volumes:
       {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
        - name: extrappvolume-{{ $index }}

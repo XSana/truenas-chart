@@ -37,7 +37,7 @@ questions:
                   required: true
   - variable: environmentVariables
     label: "Environment Variables"
-    group: "Collabora Environment Variables"
+    group: "MySQL Environment Variables"
     schema:
       type: list
       default: []

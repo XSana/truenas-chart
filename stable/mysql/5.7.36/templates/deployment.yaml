@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: {{ template "common.names.fullname" . }}
   labels:
     name: mysql
 spec:
@@ -14,6 +14,7 @@ spec:
   serviceName: mysql
   template:
     metadata:
+      name: {{ template "common.names.fullname" . }}
       labels:
         name: mysql
     spec:

@@ -45,6 +45,4 @@ spec:
         {{ $envList = mustAppend $envList (dict "name" "MYSQL_ROOT_PASSWORD" "value" .Values.rootpassword) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
   updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      partition: 0
+    type: Recreate

@@ -3,6 +3,8 @@ groups:
     description: "Image to be used for container"
   - name: "MySQL Configuration"
     description: "Configuration details for MySQL"
+  - name: "MySQL Environment Variables"
+    description: "Set the environment that will be visible to the container"
   - name: "Storage"
     description: "Configure Storage for MySQL"
 

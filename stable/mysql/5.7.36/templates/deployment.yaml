@@ -5,8 +5,13 @@ metadata:
   labels:
     name: mysql
 spec:
+  podManagementPolicy: Parallel
   replicas: 1
   revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      name: mysql
+  serviceName: mysql
   template:
     metadata:
       labels:

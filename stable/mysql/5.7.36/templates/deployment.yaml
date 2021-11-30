@@ -2,23 +2,20 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ template "common.names.fullname" . }}
-  labels:
-    name: mysql
+  labels: {{ include "common.labels" . | nindent 4 }}
 spec:
   podManagementPolicy: Parallel
   replicas: 1
   revisionHistoryLimit: 3
   selector:
-    matchLabels:
-      name: mysql
+    matchLabels: {{ include "common.labels" . | nindent 4 }}
   serviceName: mysql
   template:
     metadata:
-      labels:
-        name: mysql
+      labels: {{ include "common.labels" . | nindent 4 }}
     spec:
       containers:
-      - name: mysql
+      - name: {{ .Chart.Name }}
         image: mysql:5.7.36
         imagePullPolicy: IfNotPresent
         ports:

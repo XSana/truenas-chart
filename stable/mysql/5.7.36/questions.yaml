@@ -35,6 +35,48 @@ questions:
                 schema:
                   type: hostpath
                   required: true
+  - variable: appVolumeMounts
+    label: "MySQL存储"
+    group: "Storage"
+    schema:
+      type: dict
+      attrs:
+        - variable: mysql-data
+          label: "MySQL数据卷"
+          schema:
+            type: dict
+            attrs:
+              - variable: datasetName
+                label: "MySQL数据卷名称"
+                schema:
+                  type: string
+                  hidden: true
+                  $ref:
+                    - "normalize/ixVolume"
+                  show_if: [["hostPathEnabled", "=", false]]
+                  default: "ix-mysql_data"
+                  editable: false
+              - variable: mountPath
+                label: "MySQL数据挂载路径"
+                description: "Path where the volume will be mounted inside the pod"
+                schema:
+                  type: path
+                  hidden: true
+                  editable: false
+                  default: "/home/mysql"
+              - variable: hostPathEnabled
+                label: "启用MySQL本地卷存储路径"
+                schema:
+                  type: boolean
+                  default: false
+                  show_subquestions_if: true
+                  subquestions:
+                    - variable: hostPath
+                      label: "MySQL本地卷存储路径"
+                      schema:
+                        type: hostpath
+                        required: true
+
   - variable: environmentVariables
     label: "Environment Variables"
     group: "MySQL Environment Variables"

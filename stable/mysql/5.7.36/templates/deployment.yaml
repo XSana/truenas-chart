@@ -33,10 +33,19 @@ spec:
         - mountPath: /etc/mysql/conf.d
           name: mysql-data
           subPath: conf.d
+        {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+        - name: extrappvolume-{{ $index }}
+          mountPath: {{ $hostPathConfiguration.mountPath }}
+        {{ end }}
         env: {{ $envList := (default list .Values.environmentVariables) }}
         {{ $envList = mustAppend $envList (dict "name" "MYSQL_ROOT_PASSWORD" "value" .Values.rootpassword) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
       volumes:
+      {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+       - name: extrappvolume-{{ $index }}
+         hostPath:
+           path: {{ $hostPathConfiguration.hostPath }}
+      {{ end }}
 {{ if .Values.appVolumeMounts }}
 {{ include "common.storage.configureAppVolumes" .Values | nindent 8 }}
 {{ end }}

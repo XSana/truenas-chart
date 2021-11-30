@@ -11,6 +11,7 @@ spec:
   selector:
     matchLabels:
       name: mysql
+  serviceName: mysql
   template:
     metadata:
       labels:
@@ -19,10 +20,6 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceName: mysql
-      replicas: 1
-      selector:
-        matchLabels:
-          name: mysql
       restartPolicy: Always
       containers:
       - name: mysql

@@ -19,22 +19,7 @@ questions:
       private: true
       required: true
 
-  - variable: appVolumeMounts
-    label: "MySQL存储"
-    group: "Storage"
-    schema:
-      type: dict
-      attrs:
-        - variable: mysql-data
-          label: "MySQL数据卷"
-          schema:
-            type: dict
-            attrs:
-              - variable: hostPath
-                label: "MySQL数据卷本地路径"
-                schema:
-                  type: hostpath
-                  required: true
+
   - variable: appVolumeMounts
     label: "MySQL存储"
     group: "Storage"
@@ -56,14 +41,6 @@ questions:
                   show_if: [["hostPathEnabled", "=", false]]
                   default: "ix-mysql_data"
                   editable: false
-              - variable: mountPath
-                label: "MySQL数据挂载路径"
-                description: "Path where the volume will be mounted inside the pod"
-                schema:
-                  type: path
-                  hidden: true
-                  editable: false
-                  default: "/home/mysql"
               - variable: hostPathEnabled
                 label: "启用MySQL本地卷存储路径"
                 schema:
@@ -76,6 +53,30 @@ questions:
                       schema:
                         type: hostpath
                         required: true
+  - variable: extraAppVolumeMounts
+    label: "Extra Host Path Volumes"
+    group: "Storage"
+    schema:
+      type: list
+      items:
+        - variable: extraAppVolume
+          label: "Host Path Volume"
+          description: "Add an extra host path volume for Minio application"
+          schema:
+            type: dict
+            attrs:
+              - variable: mountPath
+                label: "Mount Path in Pod"
+                description: "Path where the volume will be mounted inside the pod"
+                schema:
+                  type: path
+                  required: true
+              - variable: hostPath
+                label: "Host Path"
+                description: "Host path"
+                schema:
+                  type: hostpath
+                  required: true
 
   - variable: environmentVariables
     label: "Environment Variables"

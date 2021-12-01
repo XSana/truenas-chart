@@ -57,28 +57,28 @@ spec:
         readinessProbe:
           tcpSocket:
             port: http
-          initialDelaySeconds: {{ .Values.gitea.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.gitea.readinessProbe.periodSeconds }}
-          timeoutSeconds: {{ .Values.gitea.readinessProbe.timeoutSeconds }}
-          successThreshold: {{ .Values.gitea.readinessProbe.successThreshold }}
-          failureThreshold: {{ .Values.gitea.readinessProbe.failureThreshold }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
         resources: {}
         startupProbe:
           tcpSocket:
             port: http
-          initialDelaySeconds: {{ .Values.gitea.startupProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.gitea.startupProbe.periodSeconds }}
-          timeoutSeconds: {{ .Values.gitea.startupProbe.timeoutSeconds }}
-          successThreshold: {{ .Values.gitea.startupProbe.successThreshold }}
-          failureThreshold: {{ .Values.gitea.startupProbe.failureThreshold }}
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
         livenessProbe:
           tcpSocket:
             port: http
-          initialDelaySeconds: {{ .Values.gitea.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ .Values.gitea.livenessProbe.periodSeconds }}
-          timeoutSeconds: {{ .Values.gitea.livenessProbe.timeoutSeconds }}
-          successThreshold: {{ .Values.gitea.livenessProbe.successThreshold }}
-          failureThreshold: {{ .Values.gitea.livenessProbe.failureThreshold }}
+          initialDelaySeconds: 200
+          periodSeconds: 10
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 10
       volumes:
       - name: local-etc
         hostPath:

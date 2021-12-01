@@ -44,9 +44,15 @@ spec:
           mountPath: {{ $hostPathConfiguration.mountPath }}
         {{ end }}
         env: {{ $envList := (default list .Values.environmentVariables) }}
-          - name: DB_TYPE
-            value: mysql
-        {{ $envList = mustAppend $envList (dict "name" "gitea_ROOT_PASSWORD" "value" .Values.rootpassword) }}
+        {{ $envList = mustAppend $envList (dict "name" "USER_UID" "value" .Values.uid) }}
+        {{ $envList = mustAppend $envList (dict "name" "USER_GID" "value" .Values.gid) }}
+        {{ $envList = mustAppend $envList (dict "name" "DB_TYPE" "value" "mysql") }}
+        {{ $envList = mustAppend $envList (dict "name" "DB_HOST" "value" .Values.mysqlHost) }}
+        {{ $envList = mustAppend $envList (dict "name" "DB_NAME" "value" .Values.mysqlDbName) }}
+        {{ $envList = mustAppend $envList (dict "name" "DB_USER" "value" .Values.mysqlUser) }}
+        {{ $envList = mustAppend $envList (dict "name" "DB_PASSWD" "value" .Values.mysqlPassword) }}
+        {{ $envList = mustAppend $envList (dict "name" "DISABLE_SSH" "value" .Values.disablessh) }}
+        {{ $envList = mustAppend $envList (dict "name" "DISABLE_REGISTRATION" "value" .Values.disablereg) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
         readinessProbe:
           tcpSocket:

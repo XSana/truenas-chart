@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "common.names.fullname" . }}
+  labels: 
+    name: gitea
+spec:
+  podManagementPolicy: Parallel
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels: 
+      name: gitea
+  serviceName: gitea
+  template:
+    metadata:
+      labels: 
+        name: gitea
+    spec:
+      hostNetwork: true
+      containers:
+      - name: {{ .Chart.Name }}
+        image: gitea:1.15.6
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: gitea
+          containerPort: 3000
+          hostPort: 3000
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/timezone
+          name: local-etc
+          readOnly: true
+          subPath: timezone
+        - mountPath: /etc/localtime
+          name: local-etc
+          readOnly: true
+          subPath: localtime
+        - mountPath: /data
+          name: gitea-data
+          subPath: data
+        {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+        - name: extrappvolume-{{ $index }}
+          mountPath: {{ $hostPathConfiguration.mountPath }}
+        {{ end }}
+        env: 
+        # - name: GITEA_APP_INI
+        #   value: /data/gitea/conf/app.ini
+        # - name: GITEA_CUSTOM
+        #   value: /data/gitea
+        # - name: GITEA_WORK_DIR
+        #   value: /data
+        # - name: GITEA_TEMP
+        #   value: /tmp/gitea
+        # - name: TMPDIR
+        #   value: /tmp/gitea
+        {{ $envList := (default list .Values.environmentVariables) }}
+        {{ $envList = mustAppend $envList (dict "name" "gitea_ROOT_PASSWORD" "value" .Values.rootpassword) }}
+        {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
+        readinessProbe:
+          tcpSocket:
+            port: http
+          initialDelaySeconds: {{ .Values.gitea.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.gitea.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.gitea.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.gitea.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.gitea.readinessProbe.failureThreshold }}
+        resources: {}
+        startupProbe:
+          tcpSocket:
+            port: http
+          initialDelaySeconds: {{ .Values.gitea.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.gitea.startupProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.gitea.startupProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.gitea.startupProbe.successThreshold }}
+          failureThreshold: {{ .Values.gitea.startupProbe.failureThreshold }}
+        livenessProbe:
+          tcpSocket:
+            port: http
+          initialDelaySeconds: {{ .Values.gitea.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.gitea.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.gitea.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.gitea.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.gitea.livenessProbe.failureThreshold }}
+      volumes:
+      - name: local-etc
+        hostPath:
+          path: /etc/
+      {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+       - name: extrappvolume-{{ $index }}
+         hostPath:
+           path: {{ $hostPathConfiguration.hostPath }}
+      {{ end }}
+{{ if .Values.appVolumeMounts }}
+{{ include "common.storage.configureAppVolumes" .Values | nindent 8 }}
+{{ end }}
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate

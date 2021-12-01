@@ -45,7 +45,7 @@ spec:
         {{ end }}
         env: {{ $envList := (default list .Values.environmentVariables) }}
           - name: DB_TYPE
-            value: "mysql"
+            value: mysql
         {{ $envList = mustAppend $envList (dict "name" "gitea_ROOT_PASSWORD" "value" .Values.rootpassword) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
         readinessProbe:

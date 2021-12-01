@@ -29,13 +29,11 @@ spec:
           protocol: TCP
         volumeMounts:
         - mountPath: /etc/timezone
-          name: local-etc
+          name: sys-timezone
           readOnly: true
-          subPath: timezone
         - mountPath: /etc/localtime
-          name: local-etc
+          name: sys-localtime
           readOnly: true
-          subPath: localtime
         - mountPath: /data
           name: gitea-data
           subPath: data
@@ -80,9 +78,12 @@ spec:
           successThreshold: 1
           failureThreshold: 10
       volumes:
-      - name: local-etc
+      - name: sys-timezone
         hostPath:
-          path: /etc/
+          path: /etc/timezone
+      - name: sys-localtime
+        hostPath:
+          path: /etc/localtime
       {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
        - name: extrappvolume-{{ $index }}
          hostPath:

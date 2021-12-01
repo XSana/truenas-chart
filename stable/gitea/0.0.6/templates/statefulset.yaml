@@ -90,7 +90,7 @@ spec:
           path: {{ $hostPathConfiguration.hostPath }}
       {{ end }}
 {{ if .Values.appVolumeMounts }}
-{{ include "common.storage.configureAppVolumes" .Values | nindent 8 }}
+{{ include "common.storage.configureAppVolumes" .Values | nindent 6 }}
 {{ end }}
   updateStrategy:
     rollingUpdate:

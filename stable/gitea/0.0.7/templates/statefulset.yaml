@@ -20,7 +20,7 @@ spec:
       hostNetwork: true
       containers:
       - name: {{ .Chart.Name }}
-        image: gitea:1.15.6
+        image: gitea/gitea:1.15.6
         imagePullPolicy: IfNotPresent
         ports:
         - name: gitea

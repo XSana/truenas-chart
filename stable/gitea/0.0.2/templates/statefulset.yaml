@@ -43,20 +43,9 @@ spec:
         - name: extrappvolume-{{ $index }}
           mountPath: {{ $hostPathConfiguration.mountPath }}
         {{ end }}
-        env: 
-        # - name: GITEA_APP_INI
-        #   value: /data/gitea/conf/app.ini
-        # - name: GITEA_CUSTOM
-        #   value: /data/gitea
-        # - name: GITEA_WORK_DIR
-        #   value: /data
-        # - name: GITEA_TEMP
-        #   value: /tmp/gitea
-        # - name: TMPDIR
-        #   value: /tmp/gitea
-        - name: DB_TYPE
-          value: "mysql"
-        {{ $envList := (default list .Values.environmentVariables) }}
+        env: {{ $envList := (default list .Values.environmentVariables) }}
+          - name: DB_TYPE
+            value: "mysql"
         {{ $envList = mustAppend $envList (dict "name" "gitea_ROOT_PASSWORD" "value" .Values.rootpassword) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
         readinessProbe:

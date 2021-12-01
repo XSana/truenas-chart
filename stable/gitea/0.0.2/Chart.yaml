@@ -1,0 +1,22 @@
+apiVersion: v2
+appVersion: "1.15.6"
+name: gitea
+description: Gitea
+type: application
+version: 0.0.2
+kubeVersion: '>=1.16.0-0'
+dependencies:
+- name: common
+  repository: file://../../../library/common/2105.0.0
+  version: 2105.0.0
+home: https://gitea.io/
+icon: https://github.com/XSana/truenas-chart/blob/main/icon/gitea-logo.png?raw=true
+keywords:
+- git
+- issue tracker
+- code review
+- wiki
+- gitea
+- gogs
+sources:
+- https://github.com/go-gitea/

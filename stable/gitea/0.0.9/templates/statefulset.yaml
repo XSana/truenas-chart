@@ -48,7 +48,7 @@ spec:
         {{ $envList = mustAppend $envList (dict "name" "DB_USER" "value" .Values.mysqlUser) }}
         {{ $envList = mustAppend $envList (dict "name" "DB_PASSWD" "value" .Values.mysqlPassword) }}
         {{ $envList = mustAppend $envList (dict "name" "DISABLE_SSH" "value" .Values.disablessh) }}
-        {{ if eq .Values.disablessh "false"}}
+        {{ if eq .Values.disablessh false }}
         {{ $envList = mustAppend $envList (dict "name" "SSH_PORT" "value" .Values.sshport) }}
         {{ $envList = mustAppend $envList (dict "name" "SSH_LISTEN_PORT" "value" .Values.sshport) }}
         {{ end }}

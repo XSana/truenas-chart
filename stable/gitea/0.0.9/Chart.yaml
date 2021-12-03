@@ -1,9 +1,9 @@
 apiVersion: v2
-appVersion: "1.15.7"
+appVersion: "1.15.3"
 name: gitea
 description: Gitea
 type: application
-version: 0.0.8
+version: 0.0.9
 kubeVersion: '>=1.16.0-0'
 dependencies:
 - name: common

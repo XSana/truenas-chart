@@ -1,7 +1,7 @@
 image:
   pullPolicy: IfNotPresent
   repository: gitea/gitea
-  tag: 1.15.7
+  tag: 1.15.3
 
 gitea:
   livenessProbe:

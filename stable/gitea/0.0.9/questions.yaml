@@ -33,13 +33,6 @@ questions:
       type: string
       default: "localhost"
       required: true
-  - variable: disablessh
-    label: "是否禁用SSH"
-    group: "Gitea Configuration"
-    description: "是否禁用SSH"
-    schema:
-      type: boolean
-      default: false
   - variable: disablereg
     label: "是否禁用注册"
     group: "Gitea Configuration"
@@ -47,6 +40,22 @@ questions:
     schema:
       type: boolean
       default: false
+  - variable: disablessh
+    label: "是否禁用SSH"
+    group: "Gitea Configuration"
+    description: "是否禁用SSH"
+    schema:
+      type: boolean
+      default: false
+  - variable: sshport
+    label: "SSH 端口"
+    group: "Gitea Configuration"
+    description: "SSH 端口"
+    schema:
+      show_if: [["disablessh", "=", false]]
+      type: string
+      default: "22"
+
   - variable: mysqlHost
     label: "MySQL地址"
     group: "Gitea Configuration"

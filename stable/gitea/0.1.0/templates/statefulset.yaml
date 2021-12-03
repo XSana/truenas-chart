@@ -57,28 +57,27 @@ spec:
         {{ $envList = mustAppend $envList (dict "name" "DISABLE_REGISTRATION" "value" .Values.disablereg) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
         readinessProbe:
-          tcpSocket:
-            port: http
+          httpGet:
+            path: /user/login
+            port: 3000
           initialDelaySeconds: 5
           periodSeconds: 10
-          timeoutSeconds: 1
           successThreshold: 1
           failureThreshold: 3
-        resources: {}
         startupProbe:
-          tcpSocket:
-            port: http
+          httpGet:
+            path: /user/login
+            port: 3000
           initialDelaySeconds: 60
           periodSeconds: 10
-          timeoutSeconds: 1
           successThreshold: 1
           failureThreshold: 10
         livenessProbe:
-          tcpSocket:
-            port: http
-          initialDelaySeconds: 200
+          httpGet:
+            path: /user/login
+            port: 3000
+          initialDelaySeconds: 60
           periodSeconds: 10
-          timeoutSeconds: 1
           successThreshold: 1
           failureThreshold: 10
       volumes:

@@ -20,6 +20,8 @@ spec:
       hostNetwork: true
       containers:
       - name: {{ .Chart.Name }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - name: gitea
           containerPort: 3000

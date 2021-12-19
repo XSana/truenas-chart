@@ -75,9 +75,9 @@ spec:
           failureThreshold: 10
       volumes:
       {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
-        - name: extrappvolume-{{ $index }}
-          hostPath:
-            path: {{ $hostPathConfiguration.hostPath }}
+      - name: extrappvolume-{{ $index }}
+        hostPath:
+          path: {{ $hostPathConfiguration.hostPath }}
       {{ end }}
 {{ if .Values.appVolumeMounts }}
 {{ include "common.storage.configureAppVolumes" .Values | nindent 8 }}

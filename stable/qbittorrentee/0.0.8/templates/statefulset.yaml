@@ -37,8 +37,8 @@ spec:
           protocol: UDP
         volumeMounts:
         {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
-          - name: qb-volume-{{ $index }}
-            mountPath: {{ $hostPathConfiguration.mountPath }}
+        - name: qb-volume-{{ $index }}
+          mountPath: {{ $hostPathConfiguration.mountPath }}
         {{ end }}
         - mountPath: /config
           name: qb-data

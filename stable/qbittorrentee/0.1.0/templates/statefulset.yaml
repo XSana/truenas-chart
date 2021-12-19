@@ -41,30 +41,6 @@ spec:
         {{ $envList = mustAppend $envList (dict "name" "PUID" "value" .Values.uid) }}
         {{ $envList = mustAppend $envList (dict "name" "WEBUIPORT" "value" .Values.webport) }}
         {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
-        readinessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.webport }}
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          successThreshold: 1
-          failureThreshold: 3
-        startupProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.webport }}
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          failureThreshold: 10
-        livenessProbe:
-          httpGet:
-            path: /
-            port: {{ .Values.webport }}
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          failureThreshold: 10
         volumeMounts:
         - mountPath: /config
           name: qb-data

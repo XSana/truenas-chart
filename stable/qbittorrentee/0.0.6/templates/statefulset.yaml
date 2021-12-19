@@ -40,7 +40,7 @@ spec:
           name: qb-data
           subPath: config
         {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
-        - name: extrappvolume-{{ $index }}
+        - name: qb-volume-{{ $index }}
           mountPath: {{ $hostPathConfiguration.mountPath }}
         {{ end }}
         env: {{ $envList := (default list .Values.environmentVariables) }}
@@ -75,7 +75,7 @@ spec:
           failureThreshold: 10
       volumes:
       {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
-      - name: extrappvolume-{{ $index }}
+      - name: qb-volume-{{ $index }}
         hostPath:
           path: {{ $hostPathConfiguration.hostPath }}
       {{ end }}

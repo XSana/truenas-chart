@@ -35,14 +35,6 @@ spec:
           containerPort: 6881
           hostPort: 6881
           protocol: UDP
-        volumeMounts:
-        {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
-        - name: qb-volume-{{ $index }}
-          mountPath: {{ $hostPathConfiguration.mountPath }}
-        {{ end }}
-        - mountPath: /config
-          name: qb-data
-          subPath: config
         env: {{ $envList := (default list .Values.environmentVariables) }}
         {{ $envList = mustAppend $envList (dict "name" "TZ" "value" .Values.tz) }}
         {{ $envList = mustAppend $envList (dict "name" "PGID" "value" .Values.gid) }}
@@ -73,15 +65,23 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           failureThreshold: 10
+        volumeMounts:
+        - mountPath: /config
+          name: qb-data
+          subPath: config
+        {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+        - name: extrappvolume-{{ $index }}
+          mountPath: {{ $hostPathConfiguration.mountPath }}
+        {{ end }}
       volumes:
-      {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
-      - name: qb-volume-{{ $index }}
-        hostPath:
-          path: {{ $hostPathConfiguration.hostPath }}
-      {{ end }}
 {{ if .Values.appVolumeMounts }}
 {{ include "common.storage.configureAppVolumes" .Values | nindent 8 }}
 {{ end }}
+      {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+        - name: extrappvolume-{{ $index }}
+          hostPath:
+            path: {{ $hostPathConfiguration.hostPath }}
+      {{ end }}
   updateStrategy:
     rollingUpdate:
       partition: 0

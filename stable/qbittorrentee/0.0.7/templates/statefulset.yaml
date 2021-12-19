@@ -36,13 +36,13 @@ spec:
           hostPort: 6881
           protocol: UDP
         volumeMounts:
-        - mountPath: /config
-          name: qb-data
-          subPath: config
         {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
           - name: qb-volume-{{ $index }}
             mountPath: {{ $hostPathConfiguration.mountPath }}
         {{ end }}
+        - mountPath: /config
+          name: qb-data
+          subPath: config
         env: {{ $envList := (default list .Values.environmentVariables) }}
         {{ $envList = mustAppend $envList (dict "name" "TZ" "value" .Values.tz) }}
         {{ $envList = mustAppend $envList (dict "name" "PGID" "value" .Values.gid) }}

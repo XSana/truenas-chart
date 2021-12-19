@@ -3,14 +3,14 @@ appVersion: "4.3.9.10"
 name: qbittorrentee
 description: superng6/qbittorrentee
 type: application
-version: 0.0.2
+version: 0.0.3
 kubeVersion: '>=1.16.0-0'
 dependencies:
 - name: common
   repository: file://../../../library/common/2105.0.0
   version: 2105.0.0
 home: https://registry.hub.docker.com/r/superng6/qbittorrentee
-icon: https://github.com/XSana/truenas-chart/blob/main/icon/qbittorrentee.png?raw=true
+icon: https://raw.githubusercontent.com/XSana/truenas-chart/main/icon/qbittorrent.png
 keywords:
 - qbittorrentee
 sources:

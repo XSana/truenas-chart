@@ -40,8 +40,8 @@ spec:
           name: qb-data
           subPath: config
         {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
-        - name: qb-volume-{{ $index }}
-          mountPath: {{ $hostPathConfiguration.mountPath }}
+          - name: qb-volume-{{ $index }}
+            mountPath: {{ $hostPathConfiguration.mountPath }}
         {{ end }}
         env: {{ $envList := (default list .Values.environmentVariables) }}
         {{ $envList = mustAppend $envList (dict "name" "TZ" "value" .Values.tz) }}

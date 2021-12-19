@@ -61,7 +61,7 @@ questions:
                   $ref:
                     - "normalize/ixVolume"
                   show_if: [["hostPathEnabled", "=", false]]
-                  default: "ix-qBittorrentEE_data"
+                  default: "ix-qbee_data"
                   editable: false
               - variable: hostPathEnabled
                 label: "启用qBittorrentEE本地卷存储路径"

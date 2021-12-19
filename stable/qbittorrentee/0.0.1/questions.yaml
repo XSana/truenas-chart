@@ -14,7 +14,7 @@ questions:
     group: "qBittorrentEE Configuration"
     description: "时区"
     schema:
-      type: String
+      type: string
       default: "Asia/Shanghai"
       required: true
   - variable: uid

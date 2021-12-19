@@ -1,0 +1,122 @@
+groups:
+  - name: "Container Images"
+    description: "Image to be used for container"
+  - name: "qBittorrentEE Configuration"
+    description: "Configuration details for qBittorrentEE"
+  - name: "qBittorrentEE Environment Variables"
+    description: "Set the environment that will be visible to the container"
+  - name: "Storage"
+    description: "Configure Storage for qBittorrentEE"
+
+questions:
+  - variable: tz
+    label: "TimeZone"
+    group: "qBittorrentEE Configuration"
+    description: "时区"
+    schema:
+      type: String
+      default: "Asia/Shanghai"
+      required: true
+  - variable: uid
+    label: "UID"
+    group: "qBittorrentEE Configuration"
+    description: "qBittorrentEE运行用户ID"
+    schema:
+      type: int
+      default: 1000
+      required: true
+  - variable: gid
+    label: "GID"
+    group: "qBittorrentEE Configuration"
+    description: "qBittorrentEE运行用户组ID"
+    schema:
+      type: int
+      default: 1000
+      required: true
+  - variable: webport
+    label: "Web Port"
+    group: "qBittorrentEE Configuration"
+    description: "Web访问端口"
+    schema:
+      type: int
+      default: 9000
+      required: true
+
+  - variable: appVolumeMounts
+    label: "qBittorrentEE存储"
+    group: "Storage"
+    schema:
+      type: dict
+      attrs:
+        - variable: qb-data
+          label: "qBittorrentEE数据卷"
+          schema:
+            type: dict
+            attrs:
+              - variable: datasetName
+                label: "qBittorrentEE数据卷名称"
+                schema:
+                  type: string
+                  hidden: true
+                  $ref:
+                    - "normalize/ixVolume"
+                  show_if: [["hostPathEnabled", "=", false]]
+                  default: "ix-qBittorrentEE_data"
+                  editable: false
+              - variable: hostPathEnabled
+                label: "启用qBittorrentEE本地卷存储路径"
+                schema:
+                  type: boolean
+                  default: false
+                  show_subquestions_if: true
+                  subquestions:
+                    - variable: hostPath
+                      label: "qBittorrentEE本地卷存储路径"
+                      schema:
+                        type: hostpath
+                        required: true
+  - variable: extraAppVolumeMounts
+    label: "Extra Host Path Volumes"
+    group: "Storage"
+    schema:
+      type: list
+      items:
+        - variable: extraAppVolume
+          label: "Host Path Volume"
+          description: "Add an extra host path volume for Minio application"
+          schema:
+            type: dict
+            attrs:
+              - variable: mountPath
+                label: "Mount Path in Pod"
+                description: "Path where the volume will be mounted inside the pod"
+                schema:
+                  type: path
+                  required: true
+              - variable: hostPath
+                label: "Host Path"
+                description: "Host path"
+                schema:
+                  type: hostpath
+                  required: true
+
+  - variable: environmentVariables
+    label: "Environment Variables"
+    group: "qBittorrentEE Environment Variables"
+    schema:
+      type: list
+      default: []
+      items:
+        - variable: environmentVariable
+          label: "Environment Variable"
+          schema:
+            type: dict
+            attrs:
+              - variable: name
+                label: "Name"
+                schema:
+                  type: string
+              - variable: value
+                label: "Value"
+                schema:
+                  type: string

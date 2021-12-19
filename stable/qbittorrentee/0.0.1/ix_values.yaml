@@ -1,0 +1,5 @@
+image:
+  pullPolicy: IfNotPresent
+  repository: superng6/qbittorrentee
+  tag: 4.3.9.10
+

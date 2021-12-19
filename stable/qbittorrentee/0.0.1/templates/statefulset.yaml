@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "common.names.fullname" . }}
+  labels: 
+    name: qbittorrentee
+spec:
+  podManagementPolicy: Parallel
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels: 
+      name: qbittorrentee
+  serviceName: qbittorrentee
+  template:
+    metadata:
+      labels: 
+        name: qbittorrentee
+    spec:
+      hostNetwork: true
+      containers:
+      - name: {{ .Chart.Name }}
+        image: superng6/qbittorrentee:4.3.9.10
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: qb-web
+          containerPort: {{ .Values.webport }}
+          hostPort: {{ .Values.webport }}
+          protocol: TCP
+        - name: qb-bt-tcp
+          containerPort: 6881
+          hostPort: 6881
+          protocol: TCP
+        - name: qb-bt-udp
+          containerPort: 6881
+          hostPort: 6881
+          protocol: UDP
+        volumeMounts:
+        - mountPath: /config
+          name: qb-data
+          subPath: config
+        {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+        - name: extrappvolume-{{ $index }}
+          mountPath: {{ $hostPathConfiguration.mountPath }}
+        {{ end }}
+        env: {{ $envList := (default list .Values.environmentVariables) }}
+        {{ $envList = mustAppend $envList (dict "name" "TZ" "value" .Values.tz) }}
+        {{ $envList = mustAppend $envList (dict "name" "PGID" "value" .Values.gid) }}
+        {{ $envList = mustAppend $envList (dict "name" "PUID" "value" .Values.uid) }}
+        {{ $envList = mustAppend $envList (dict "name" "WEBUIPORT" "value" .Values.webport) }}
+        {{ include "common.containers.environmentVariables" (dict "environmentVariables" $envList) | nindent 12 }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.webport }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.webport }}
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.webport }}
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
+      volumes:
+      {{ range $index, $hostPathConfiguration := .Values.extraAppVolumeMounts }}
+       - name: extrappvolume-{{ $index }}
+         hostPath:
+           path: {{ $hostPathConfiguration.hostPath }}
+      {{ end }}
+{{ if .Values.appVolumeMounts }}
+{{ include "common.storage.configureAppVolumes" .Values | nindent 8 }}
+{{ end }}
+  updateStrategy:
+    rollingUpdate:
+      partition: 0
+    type: RollingUpdate

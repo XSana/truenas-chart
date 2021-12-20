@@ -5,6 +5,12 @@ groups:
     description: "Configuration details for Nextcloud workload"
   - name: "Storage"
     description: "Configure Storage for Nextcloud"
+  - name: "Container Configuration"
+    description: "Configure nextcloud container parameters"
+  - name: "Scaling/Upgrade Policy"
+    description: "Configure how pods are replaced when configuration is upgraded"
+  - name: "Advanced DNS Settings"
+    description: "Configure DNS settings"
 
 portals:
   web_portal:
@@ -13,16 +19,43 @@ portals:
     host:
       - "$variable-nextcloud.host"
     ports:
-      - "5001"
+      - "$variable-service.nodePort"
 
 questions:
+
+  - variable: dnsConfig
+    label: "DNS Configuration"
+    group: "Advanced DNS Settings"
+    schema:
+      type: dict
+      attrs:
+        - variable: options
+          label: "DNS Options"
+          schema:
+            type: list
+            items:
+              - variable: optionsEntry
+                label: "Option Entry Configuration"
+                schema:
+                  type: dict
+                  attrs:
+                    - variable: name
+                      label: "Option Name"
+                      schema:
+                        type: string
+                        required: true
+                    - variable: value
+                      label: "Option Value"
+                      schema:
+                        type: string
+                        required: true
+
   - variable: certificate
     description: "Configure Certificate for Nextcloud"
     label: "Certificate Configuration"
     group: "Nextcloud Configuration"
     schema:
       type: int
-      required: true
       $ref:
         - "definitions/certificate"
 
@@ -47,7 +80,7 @@ questions:
           description: "Name of the Nextcloud admin user"
           schema:
             type: string
-            default: ""
+            default: "admin"
             required: true
         - variable: password
           label: "Password"
@@ -55,7 +88,7 @@ questions:
           schema:
             type: string
             private: true
-            default: ""
+            default: "changeme"
             required: true
         - variable: datadir
           label: "Nextcloud data directory"
@@ -92,6 +125,37 @@ questions:
             type: string
             private: true
             default: ""
+            required: true
+
+  # Update strategy
+  - variable: updateStrategy
+    description: "Upgrade Policy"
+    label: "Update Strategy"
+    group: "Scaling/Upgrade Policy"
+    schema:
+      type: string
+      default: "Recreate"
+      enum:
+        - value: "RollingUpdate"
+          description: "Create new pods and then kill old ones"
+        - value: "Recreate"
+          description: "Kill existing pods before creating new ones"
+
+  - variable: service
+    description: "Nextcloud Service Configuration"
+    label: "Nextcloud Service Configuration"
+    group: "Nextcloud Configuration"
+    schema:
+      type: dict
+      required: true
+      attrs:
+        - variable: nodePort
+          label: "Node Port to use for Nextcloud"
+          schema:
+            type: int
+            min: 9000
+            max: 65535
+            default: 9001
             required: true
 
   - variable: appVolumeMounts

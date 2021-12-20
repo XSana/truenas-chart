@@ -37,7 +37,7 @@ spec:
             protocol: TCP
       - name: {{ .Chart.Name }}
         {{ include "common.containers.imageConfig" .Values.image | nindent 8 }}
-        env: {{ include "postgres.envVariableConfiguration" $postgres_values | nindent 10 }}
+        env: 
         {{ $envList := list }}
         {{ $secretName := (include "common.names.fullname" .) }}
         {{ $envList = mustAppend $envList (dict "name" "NEXTCLOUD_DATA_DIR" "value" .Values.nextcloud.datadir) }}

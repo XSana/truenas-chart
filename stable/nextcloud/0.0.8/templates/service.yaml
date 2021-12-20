@@ -10,7 +10,7 @@ spec:
       protocol: TCP
       port: 5000
       targetPort: 5000
-    - name: http
+    - name: https
       protocol: TCP
       port: 5001
       targetPort: 5001

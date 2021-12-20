@@ -13,7 +13,7 @@ portals:
     host:
       - "$variable-nextcloud.host"
     ports:
-      - "5000"
+      - "5001"
 
 questions:
   - variable: certificate

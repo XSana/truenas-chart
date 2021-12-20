@@ -5,7 +5,6 @@ metadata:
 data:
   protocol: {{ include "nginx.scheme" . }}
   nginx.conf: |-
-    user 1000 1000;
     events {}
     http {
       # redirects all http requests to https requests

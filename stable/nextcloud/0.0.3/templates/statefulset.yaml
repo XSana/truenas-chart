@@ -35,6 +35,9 @@ spec:
             containerPort: 5001
             hostPort: 5001
             protocol: TCP
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
       - name: {{ .Chart.Name }}
         {{ include "common.containers.imageConfig" .Values.image | nindent 8 }}
         env: 
@@ -103,7 +106,6 @@ spec:
       # Will mount configuration files as www-data (id: 33) for nextcloud
       securityContext:
         fsGroup: 33
-        runAsUser: 1000
   updateStrategy:
     rollingUpdate:
       partition: 0

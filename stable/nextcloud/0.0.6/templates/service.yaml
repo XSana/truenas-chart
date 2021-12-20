@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nextcloud
+  labels:
+    name: nextcloud
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+    - name: http
+      protocol: TCP
+      port: 5001
+      targetPort: 5001
+  selector:
+    name: nextcloud
+  type: nextcloud

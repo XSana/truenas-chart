@@ -17,7 +17,6 @@ spec:
       labels: 
         name: nextcloud
     spec:
-      hostNetwork: true
       containers:
       - name: nginx
         {{ include "common.containers.imageConfig" .Values.nginx.image | nindent 8 }}
@@ -29,11 +28,9 @@ spec:
         ports:
           - name: nginx-http
             containerPort: 5000
-            hostPort: 5000
             protocol: TCP
           - name: nginx-https
             containerPort: 5001
-            hostPort: 5001
             protocol: TCP
       - name: {{ .Chart.Name }}
         {{ include "common.containers.imageConfig" .Values.image | nindent 8 }}

@@ -16,4 +16,4 @@ spec:
       targetPort: 5001
   selector:
     name: nextcloud
-  type: nextcloud
+  type: LoadBalancer
